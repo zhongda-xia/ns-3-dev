@@ -4,7 +4,8 @@ from __future__ import division, print_function
 
 LAYOUT_ALGORITHM = 'neato' # ['neato'|'dot'|'twopi'|'circo'|'fdp'|'nop']
 REPRESENT_CHANNELS_AS_NODES = 1
-DEFAULT_NODE_SIZE = 1.0 # default node size in meters
+# DEFAULT_NODE_SIZE = 1.0 # default node size in meters
+DEFAULT_NODE_SIZE = 50.0 # default node size in meters
 DEFAULT_TRANSMISSIONS_MEMORY = 5 # default number of of past intervals whose transmissions are remembered
 BITRATE_FONT_SIZE = 10
 
@@ -581,7 +582,8 @@ class WiredLink(Link):
         assert isinstance(node2, (Node, Channel))
         self.node1 = node1
         self.node2 = node2
-        self.canvas_item = GooCanvas.CanvasPath(line_width=1.0, stroke_color="black")
+        # self.canvas_item = GooCanvas.CanvasPath(line_width=1.0, stroke_color="black")
+        self.canvas_item = GooCanvas.CanvasPath(line_width=20.0, stroke_color="black")
         self.canvas_item.pyviz_object = self
         self.node1.links.append(self)
         self.node2.links.append(self)
@@ -1122,7 +1124,12 @@ class Visualizer(GObject.GObject):
 
             # print "Mobility type: " + mobility.GetInstanceTypeId().GetName()
             if mobility is not None:
-                node_view.set_color("red")
+                if str(mobility.GetTypeId()) == 'ns3::ConstantPositionMobilityModel':
+                    node_view.set_color("green")
+                elif str(mobility.GetTypeId()) == 'ns3::WaypointMobilityModel':
+                    node_view.set_color("red")
+                else:
+                    node_view.set_color("yellow")
                 pos = mobility.GetPosition()
                 node_view.set_position(*transform_point_simulation_to_canvas(pos.x, pos.y))
                 #print "node has mobility position -> ", "%f,%f" % (pos.x, pos.y)

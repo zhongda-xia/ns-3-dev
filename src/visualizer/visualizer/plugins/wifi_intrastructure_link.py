@@ -34,7 +34,8 @@ class WifiLink(Link):
                                                  line_width=25.0,
                                                  visibility=GooCanvas.CanvasItemVisibility.HIDDEN)
         self.visible_line = GooCanvas.CanvasPolyline(parent=self.canvas_item,
-                                              line_width=1.0,
+                                            #   line_width=1.0,
+                                              line_width=50.0,
                                               stroke_color_rgba=0xC00000FF,
                                               line_dash=GooCanvas.CanvasLineDash.newv([2.0, 2.0 ]))
         # self.invisible_line.set_property("pointer-events", (GooCanvas.CanvasPointerEvents.STROKE_MASK
