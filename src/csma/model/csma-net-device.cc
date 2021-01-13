@@ -686,7 +686,10 @@ CsmaNetDevice::Attach (Ptr<CsmaChannel> ch)
 
   m_channel = ch;
 
-  m_deviceId = m_channel->Attach (this);
+  if (m_channel->GetDeviceNum(this) == -1) {
+    // patch: attach to channel only for the first time
+    m_deviceId = m_channel->Attach (this);
+  }
 
   //
   // The channel provides us with the transmitter data rate.
